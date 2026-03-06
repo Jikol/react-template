@@ -1,0 +1,17 @@
+.gitlab-ci.yml
+.dockerignore
+.gitattributes
+.gitignore
+.idea
+.git
+compose.yml
+Taskfile.yml
+README.md
+template.env
+aws-creds.sh
+components.json
+**/*.local
+Dockerfile
+LICENSE
+dist
+node_modules

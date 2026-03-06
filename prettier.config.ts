@@ -1,0 +1,27 @@
+import { type Config } from "prettier";
+
+export default {
+  printWidth: 90,
+  tabWidth: 2,
+  useTabs: false,
+  semi: true,
+  singleQuote: false,
+  jsxSingleQuote: false,
+  trailingComma: "none",
+  bracketSpacing: true,
+  bracketSameLine: true,
+  arrowParens: "always",
+  endOfLine: "lf",
+  proseWrap: "always",
+  tailwindFunctions: ["clsx", "cn"],
+  importOrder: ["^@/(.*)$", "^[./]"],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  endingPosition: "absolute",
+  plugins: [
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-tailwindcss",
+    "prettier-plugin-classnames",
+    "prettier-plugin-merge"
+  ]
+} satisfies Config;

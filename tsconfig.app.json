@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    // Type checking & Linting
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "erasableSyntaxOnly": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedSideEffectImports": true,
+    // Module Resolution & Imports
+    "moduleResolution": "bundler",
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "baseUrl": "./",
+    "module": "ESNext",
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "/*": ["./*", "./public/*"]
+    },
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    // Output & Build
+    "noEmit": true,
+    "sourceMap": true,
+    // Language Features
+    "downlevelIteration": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "target": "ES2022",
+    // Misc
+    "skipLibCheck": true
+  },
+  "include": ["src", "types"],
+  "exclude": ["node_modules", "dist", "public"]
+}

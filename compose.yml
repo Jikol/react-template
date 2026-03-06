@@ -1,0 +1,41 @@
+name: fizz-buzz
+
+services:
+  webapp:
+    container_name: webapp
+    image: ${DOCKER_IMAGE:-$DEFAULT_DOCKER_IMAGE}:${DOCKER_TAG:-latest}
+    profiles: [prod]
+    environment:
+      RETINA_WEBAPP_DEBUG: ${RETINA_WEBAPP_DEBUG:?error}
+      RETINA_WEBAPP_HTTP_PORT: ${RETINA_WEBAPP_HTTP_PORT:?error}
+      RETINA_WEBAPP_HTTPS_PORT: ${RETINA_WEBAPP_HTTPS_PORT:?error}
+      RETINA_WEBAPP_VIEW: ${RETINA_WEBAPP_VIEW:?error}
+      RETINA_WEBAPP_API_URL: ${RETINA_WEBAPP_API_URL:?error}
+      RETINA_WEBAPP_SSL_CERT_PATH: ${RETINA_WEBAPP_SSL_CERT_PATH:?error}
+      RETINA_WEBAPP_SSL_KEY_PATH: ${RETINA_WEBAPP_SSL_KEY_PATH:?error}
+      HOSTNAME: ${HOSTNAME}
+    # noinspection ComposeUnknownValues
+    ports:
+      - ${RETINA_WEBAPP_HTTP_PORT:?error}:${RETINA_WEBAPP_HTTP_PORT:?error}
+      - ${RETINA_WEBAPP_HTTPS_PORT:?error}:${RETINA_WEBAPP_HTTPS_PORT:?error}
+    restart: unless-stopped
+    tty: true
+    volumes:
+      - ${RETINA_WEBAPP_SSL_CERT_PATH:?error}:${RETINA_WEBAPP_SSL_CERT_PATH:?error}
+      - ${RETINA_WEBAPP_SSL_KEY_PATH:?error}:${RETINA_WEBAPP_SSL_KEY_PATH:?error}
+      - nginx-data:/var/log/nginx
+
+  webapp-healthcheck:
+    container_name: webapp-healthcheck
+    image: alpine
+    profiles: [prod]
+    restart: no
+    depends_on:
+      webapp:
+        condition: service_healthy
+    command: ["sh", "-c", "echo 'All services are healthy, exiting.'"]
+
+volumes:
+  nginx-data:
+    external: true
+    name: retina-webapp-nginx
