@@ -1,5 +1,6 @@
 import eslint from "@eslint/js";
 import eslintPrettier from "eslint-config-prettier/flat";
+import importPlugin from "eslint-plugin-import";
 import react from "eslint-plugin-react";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
@@ -20,6 +21,7 @@ export default defineConfig([
     ],
     plugins: {
       react,
+      import: importPlugin,
       "@typescript-eslint": tseslint.plugin
     },
     languageOptions: {
@@ -40,6 +42,10 @@ export default defineConfig([
     settings: {
       react: {
         version: "detect"
+      },
+      "import/resolver": {
+        typescript: true,
+        node: true
       }
     },
     rules: {
@@ -76,6 +82,35 @@ export default defineConfig([
       "@typescript-eslint/no-var-requires": "off",
       "@typescript-eslint/no-inferrable-types": "error",
       "@typescript-eslint/no-unused-vars": "error"
+    }
+  },
+  {
+    files: ["src/**/*.{ts,tsx}"],
+    rules: {
+      "import/extensions": [
+        "error",
+        "never",
+        {
+          ts: "never",
+          tsx: "never",
+          css: "always",
+          svg: "always"
+        }
+      ]
+    }
+  },
+  {
+    ignores: ["src/**/*.{ts,tsx}"],
+    rules: {
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          ts: "always",
+          js: "always",
+          json: "always"
+        }
+      ]
     }
   }
 ]);

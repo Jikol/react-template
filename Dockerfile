@@ -1,15 +1,13 @@
 # base stage
-FROM oven/bun:1.4.2-alpine AS base
+FROM oven/bun:1.3.10-alpine AS base
 
 ARG DOCKER_TAG
-ARG RETINA_WEBAPP_DEBUG
-ARG RETINA_WEBAPP_VIEW
-ARG RETINA_WEBAPP_API_URL
+
+# environment variables for usage in apps code
+ARG _WEBAPP_DEBUG
 
 ENV DOCKER_TAG=${DOCKER_TAG} \
-    RETINA_WEBAPP_DEBUG=${RETINA_WEBAPP_DEBUG} \
-    RETINA_WEBAPP_VIEW=${RETINA_WEBAPP_VIEW} \
-    RETINA_WEBAPP_API_URL=${RETINA_WEBAPP_API_URL}
+    _WEBAPP_DEBUG=${_WEBAPP_DEBUG} \
 
 WORKDIR /app
 
@@ -25,38 +23,42 @@ COPY . .
 RUN bun run lint
 
 # build stage
-FROM test AS build
+FROM base AS build
+
+COPY . .
 
 RUN bun run prod
 
 # prod stage
-FROM nginx:1.27-alpine AS final
+FROM nginx:1.29-alpine3.22 AS final
 
 ARG DOCKER_TAG
-ARG RETINA_WEBAPP_HTTP_PORT
-ARG RETINA_WEBAPP_HTTPS_PORT
+
+# environment variables for usage outside apps code (like nginx)
+ARG _WEBAPP_HTTP_PORT
+ARG _WEBAPP_HTTPS_PORT
 
 ENV VERSION=${DOCKER_TAG} \
-    RETINA_WEBAPP_HTTP_PORT=${RETINA_WEBAPP_HTTP_PORT} \
-    RETINA_WEBAPP_HTTPS_PORT=${RETINA_WEBAPP_HTTPS_PORT}
+    _WEBAPP_HTTP_PORT=${_WEBAPP_HTTP_PORT} \
+    _WEBAPP_HTTPS_PORT=${_WEBAPP_HTTPS_PORT}
 
 WORKDIR /var/www
 
 RUN apk add --no-cache curl
 
-EXPOSE ${RETINA_WEBAPP_HTTP_PORT} ${RETINA_WEBAPP_HTTPS_PORT}
+EXPOSE ${_WEBAPP_HTTP_PORT} ${_WEBAPP_HTTPS_PORT}
 
 COPY --from=build /app/dist ./
 COPY config /etc/nginx/
 
 HEALTHCHECK --interval=10s --timeout=10s --retries=3 \
-  CMD curl --silent --fail http://localhost:${RETINA_WEBAPP_HTTP_PORT} || \
-      curl --silent --fail --insecure https://localhost:${RETINA_WEBAPP_HTTPS_PORT} || exit 1
+  CMD curl --silent --fail http://localhost:${_WEBAPP_HTTP_PORT} || \
+      curl --silent --fail --insecure https://localhost:${_WEBAPP_HTTPS_PORT} || exit 1
 
-LABEL org.opencontainers.image.title="retina-webapp" \
-      org.opencontainers.image.description="SPA web application for Retina API to show retinal images" \
+LABEL org.opencontainers.image.title="react-template" \
+      org.opencontainers.image.description="" \
       org.opencontainers.image.version=${DOCKER_TAG} \
-      org.opencontainers.image.vendor="VSB" \
-      org.opencontainers.image.base.name="nginx:1.27-alpine"
+      org.opencontainers.image.vendor="" \
+      org.opencontainers.image.base.name="nginx:1.29-alpine3.22"
 
 

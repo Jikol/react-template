@@ -59,9 +59,13 @@ tasks:
     platforms: [linux]
     requires:
       vars:
-        - EXAMPLE_FIZZ_BUZZ
+        - _WEBAPP_DEBUG
+        - _WEBAPP_HTTP_PORT
+        - _WEBAPP_HTTPS_PORT
+        - _WEBAPP_SSL_CERT_PATH
+        - _WEBAPP_SSL_KEY_PATH
     # prettier-ignore
-    cmd: >  
+    cmd: >
       docker buildx inspect containerd > /dev/null 2> /dev/null ||
       docker buildx create --name containerd --driver docker-container --bootstrap &&
       echo "BuildKit Driver: $(docker buildx inspect --builder containerd | \
@@ -70,7 +74,11 @@ tasks:
       --tag {{.DOCKER_IMAGE | default "{{.DEFAULT_DOCKER_IMAGE}}"}}:{{.DOCKER_TAG | default "latest"}}
       --target {{.DOCKER_TARGET | default "final"}}
       --build-arg DOCKER_TAG={{.DOCKER_TAG | default "latest"}}
-      --build-arg EXAMPLE_FIZZ_BUZZ={{.EXAMPLE_FIZZ_BUZZ}}
+      --build-arg _WEBAPP_DEBUG={{._WEBAPP_DEBUG}}
+      --build-arg _WEBAPP_HTTP_PORT={{._WEBAPP_HTTP_PORT}}
+      --build-arg _WEBAPP_HTTPS_PORT={{._WEBAPP_HTTPS_PORT}}
+      --build-arg _WEBAPP_SSL_CERT_PATH={{._WEBAPP_SSL_CERT_PATH}}
+      --build-arg _WEBAPP_SSL_KEY_PATH={{._WEBAPP_SSL_KEY_PATH}}
       --builder containerd
       {{if and (ne .DOCKER_TARGET "final") (not (or (eq .DOCKER_TARGET nil) (eq .DOCKER_TARGET "")))}}
       --output type=cacheonly
@@ -120,9 +128,10 @@ tasks:
     cmd: |
       {{if ne .GITLAB_CI "true"}}
        # Here you should export environment variables mapped as paths in docker volume
-       # export FIZZ_BUZZ=$(realpath ${FIZZ_BUZZ})
+       export _WEBAPP_SSL_CERT_PATH=$(realpath ${_WEBAPP_SSL_CERT_PATH})
+       export _WEBAPP_SSL_KEY_PATH=$(realpath ${_WEBAPP_SSL_KEY_PATH})
       {{end}}
-      docker volume create retina-webapp-nginx
+      docker volume create webapp-nginx-data
       {{if eq .GITLAB_CI "true"}}
         sh -c 'docker compose --profile prod pull || (docker compose --profile prod down; exit 1)'
       {{end}}

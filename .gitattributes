@@ -7,7 +7,6 @@
 *.css       diff=css
 *.scss      diff=css
 *.md        diff=markdown
-*.log       diff
 *.xml       diff
 
 *.png       binary

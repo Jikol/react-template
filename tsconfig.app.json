@@ -19,7 +19,6 @@
       "/*": ["./*", "./public/*"]
     },
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     // Output & Build

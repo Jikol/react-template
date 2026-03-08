@@ -1,0 +1,225 @@
+/*
+ * HTML root resets
+ */
+:root {
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  text-shadow: var(--ts-base);
+  color-scheme: light dark;
+}
+
+/*
+ * React root resets
+ */
+#root {
+  height: var(--vh-base);
+  min-height: 100%;
+  isolation: isolate;
+}
+
+/*
+ * No script reset
+ */
+noscript {
+  display: grid;
+  place-content: center;
+  height: 100dvh;
+  padding: 15vw;
+  font-size: 1.5rem;
+  text-align: center;
+
+  & > span:not(:first-of-type) {
+    padding-top: 0.5em;
+  }
+
+  & > span:not(:last-of-type) {
+    padding-bottom: 0.7em;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  noscript {
+    color: white;
+
+    & > span:not(:first-of-type) {
+      border-top: 1px solid white;
+    }
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  noscript {
+    color: black;
+
+    & > span:not(:first-of-type) {
+      border-top: 1px solid black;
+    }
+  }
+}
+
+/*
+ * Fill input
+ */
+input {
+  width: 100%;
+}
+
+/*
+ * Text size for icons
+ */
+svg {
+  width: 1em;
+  height: 1em;
+}
+
+/*
+ * Disabled user select
+ */
+p,
+span,
+label,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+img {
+  user-select: none;
+}
+
+/*
+ * User interactive anchor
+ */
+a {
+  cursor: pointer;
+}
+
+/*
+ * Chrome (Blink) autofill input presence
+ */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition:
+    background-color 600000s 0s,
+    color 600000s 0s;
+}
+
+input[data-autocompleted] {
+  background-color: transparent !important;
+}
+
+/*
+ * Firefox (Gecko) scrollbar presence
+ * scrollbar-color: <thumb color> <track color>
+ */
+*,
+::before,
+::after {
+  scrollbar-gutter: auto;
+  -webkit-tap-highlight-color: rgb(0 0 0 / 0%);
+
+  html[data-theme="dark"] & {
+    scrollbar-color: hsl(0deg 0% 46%) hsl(0deg 0% 10%);
+  }
+
+  html[data-theme="light"] & {
+    scrollbar-color: hsl(0deg 0% 54%) hsl(0deg 0% 90%);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) & {
+      scrollbar-color: hsl(0deg 0% 46%) hsl(0deg 0% 10%);
+    }
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) & {
+      scrollbar-color: hsl(0deg 0% 54%) hsl(0deg 0% 90%);
+    }
+  }
+}
+
+/*
+ * Chrome based (Blink) & Safari (WebKit) scrollbar presence
+ */
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  *::-webkit-scrollbar-track {
+    background-color: hsl(0deg 0% 7%);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background-color: hsl(0deg 0% 7%);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    color: hsl(202deg 6% 29%);
+  }
+
+  *::-webkit-scrollbar-thumb:vertical {
+    background: hsl(202deg 6% 34%)
+      linear-gradient(to right, transparent, hsl(0deg 0% 0% / 25%));
+  }
+
+  *::-webkit-scrollbar-thumb:vertical:active {
+    background: hsl(202deg 6% 39%)
+      linear-gradient(to right, transparent, hsl(0deg 0% 0% / 25%));
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal {
+    background: hsl(202deg 6% 34%)
+      linear-gradient(to bottom, transparent, hsl(0deg 0% 0% / 25%));
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal:active {
+    background: hsl(202deg 6% 39%)
+      linear-gradient(to bottom, transparent, hsl(0deg 0% 0% / 25%));
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  *::-webkit-scrollbar-track {
+    background-color: hsl(0deg 0% 100%);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background-color: hsl(0deg 0% 100%);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    color: hsl(0deg 0% 65%);
+  }
+
+  *::-webkit-scrollbar-thumb:vertical {
+    background: hsl(0deg 0% 60%)
+      linear-gradient(to right, hsl(0deg 0% 100% / 25%), transparent);
+  }
+
+  *::-webkit-scrollbar-thumb:vertical:active {
+    background: hsl(0deg 0% 55%)
+      linear-gradient(to right, hsl(0deg 0% 100% / 25%), transparent);
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal {
+    background: hsl(0deg 0% 60%)
+      linear-gradient(to bottom, hsl(0deg 0% 100% / 25%), transparent);
+  }
+
+  *::-webkit-scrollbar-thumb:horizontal:active {
+    background: hsl(0deg 0% 55%)
+      linear-gradient(to bottom, hsl(0deg 0% 100% / 25%), transparent);
+  }
+}
