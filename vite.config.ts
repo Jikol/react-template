@@ -52,7 +52,6 @@ export default defineConfig(({ mode }) => {
           manualChunks: (id): string | null => {
             if (!id.includes("node_modules")) return null;
             if (id.includes("react")) return "react";
-            if (id.includes("lodash")) return "lodash";
             if (id.includes("moment")) return "moment";
             if (id.includes("core-js")) return "core-js";
             if (id.includes("tailwindcss")) return "tailwindcss";

@@ -67,7 +67,7 @@
     "@vitejs/plugin-react": "^5.1.4",
     "@vitejs/plugin-react-swc": "^4.2.3",
     "chalk-cli": "^6.0.0",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",

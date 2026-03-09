@@ -46,7 +46,7 @@ const getStyle = (
 };
 
 const logger = pino<TLevels, true>({
-  level: CONFIG.RETINA_WEBAPP_DEBUG ? "debug" : "log",
+  level: CONFIG._WEBAPP_DEBUG ? "debug" : "log",
   customLevels: {
     debug: 10,
     log: 20,
@@ -55,7 +55,7 @@ const logger = pino<TLevels, true>({
     warn: 40,
     error: 50
   },
-  enabled: CONFIG.RETINA_WEBAPP_DEBUG,
+  enabled: CONFIG._WEBAPP_DEBUG,
   useOnlyCustomLevels: true,
   browser: {
     formatters: {

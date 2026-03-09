@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { z } from "zod";
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.local"), quiet: true });
 
 const constants = {
   ROOT_PATH: path.resolve(import.meta.dirname),
@@ -17,19 +17,19 @@ const environments = z.object({
     .transform((val) => val === "true"),
   _WEBAPP_HTTP_PORT: z
     .string()
-    .default("80")
+    .default("1234")
     .transform((port) => +port),
   _WEBAPP_HTTPS_PORT: z
     .string()
-    .default("443")
+    .default("4321")
     .transform((port) => +port),
   _WEBAPP_SSL_CERT_PATH: z
     .string()
-    .default("/etc/ssl/certs/selfsigned-cert.pem")
+    .default("./config/ssl/selfsigned-cert.pem")
     .transform((_path) => path.resolve(_path)),
   _WEBAPP_SSL_KEY_PATH: z
     .string()
-    .default("/etc/ssl/private/selfsigned-key.pem")
+    .default("./config/ssl/selfsigned-key.pem")
     .transform((_path) => path.resolve(_path))
 });
 
