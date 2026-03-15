@@ -1,5 +1,5 @@
 import { TinyColor } from "@ctrl/tinycolor";
-import moment from "moment";
+import dayjs from "dayjs";
 import type { Logger } from "pino";
 import pino from "pino";
 import type { CSSProperties } from "react";
@@ -46,7 +46,7 @@ const getStyle = (
 };
 
 const logger = pino<TLevels, true>({
-  level: CONFIG._WEBAPP_DEBUG ? "debug" : "log",
+  level: CONFIG.VITE_DEBUG ? "debug" : "log",
   customLevels: {
     debug: 10,
     log: 20,
@@ -55,7 +55,7 @@ const logger = pino<TLevels, true>({
     warn: 40,
     error: 50
   },
-  enabled: CONFIG._WEBAPP_DEBUG,
+  enabled: CONFIG.VITE_DEBUG,
   useOnlyCustomLevels: true,
   browser: {
     formatters: {
@@ -66,7 +66,7 @@ const logger = pino<TLevels, true>({
         return {
           msg: msgObject.msg,
           level: msgObject.level,
-          label: `[${msgObject.level === "success" ? "LOG" : msgObject.label} | ${moment(msgObject.time).format("HH:mm:ss")}]`,
+          label: `[${msgObject.level === "success" ? "LOG" : msgObject.label} | ${dayjs(msgObject.time).format("HH:mm:ss")}]`,
           scopeLabel: msgObject.scopeLabel
             ? msgObject.scopeLabel.toUpperCase()
             : undefined,

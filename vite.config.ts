@@ -79,17 +79,53 @@ export default defineConfig(({ mode }) => {
       outDir: path.join(config.CONST.ROOT_PATH, "dist"),
       assetsInlineLimit: (filePath): boolean => !filePath.includes("sprite.svg"),
       sourcemap: true,
-      target: "esnext",
+      target: "es2020",
       rollupOptions: {
+        input: {
+          app: path.join(config.CONST.ROOT_PATH, "index.html")
+        },
         output: {
-          manualChunks: (id): string | null => {
+          manualChunks: (id): string | null | undefined => {
             if (!id.includes("node_modules")) return null;
-            if (id.includes("react")) return "react";
-            if (id.includes("moment")) return "moment";
-            if (id.includes("core-js")) return "core-js";
-            if (id.includes("tailwindcss")) return "tailwindcss";
 
-            return null;
+            // React
+            if (id.includes("node_modules/react/")) return "react";
+            if (id.includes("node_modules/react-dom/")) return "react";
+
+            // Tanstack
+            if (id.includes("tanstack")) return "tanstack";
+
+            // Visuals
+            if (id.includes("clsx")) return "visuals";
+            if (id.includes("tailwind-merge")) return "visuals";
+            if (id.includes("class-variance-authority")) return "visuals";
+            if (id.includes("tinycolor")) return "visuals";
+            if (id.includes("ldrs")) return "visuals";
+            if (id.includes("lucide-react")) return "visuals";
+
+            // Hooks
+            if (id.includes("@uidotdev/usehooks")) return "hooks";
+            if (id.includes("usehooks-ts")) return "hooks";
+            if (id.includes("use-immer")) return "hooks";
+
+            // Motions
+            if (id.includes("embla-carousel")) return "motion";
+            if (id.includes("wheel-gestures")) return "motion";
+
+            // Utils
+            if (id.includes("axios")) return "utils";
+            if (id.includes("pino")) return "utils";
+            if (id.includes("jotai")) return "utils";
+            if (id.includes("immer")) return "utils";
+            if (id.includes("jotai-immer")) return "utils";
+            if (id.includes("zustand")) return "utils";
+            if (id.includes("dayjs")) return "utils";
+            if (id.includes("fast-deep-equal")) return "utils";
+            if (id.includes("js-cookie")) return "utils";
+            if (id.includes("uuid")) return "utils";
+
+            // Big packages
+            if (id.includes("zod")) return "zod";
           }
         }
       }

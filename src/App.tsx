@@ -3,6 +3,10 @@ import { createRoot } from "react-dom/client";
 
 import { mergeProviders } from "@/utils";
 
+import log from "/logger";
+
+log.debug("Global config", CONFIG);
+
 const ProvidersTree = mergeProviders([]);
 
 createRoot(document.getElementById("root")!).render(
