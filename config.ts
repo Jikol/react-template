@@ -6,28 +6,40 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env.local"), quiet: true });
 
 const constants = {
   ROOT_PATH: path.resolve(import.meta.dirname),
-  ENV_PREFIX: "_",
   DEBOUNCE_TIMEOUTMS: 500
 } as const;
 
 const environments = z.object({
-  _WEBAPP_DEBUG: z
+  VITE_DEBUG: z
     .string()
     .default("true")
     .transform((val) => val === "true"),
-  _WEBAPP_HTTP_PORT: z
+  /* ----------------------------------------------------------- */
+  VITE_NAME: z.string().default("react-template"),
+  VITE_DESCRIPTION: z
+    .string()
+    .default("A modern React template with Tailwind CSS and shadcn/ui"),
+  VITE_DEV_PORT: z
     .string()
     .default("1234")
     .transform((port) => +port),
-  _WEBAPP_HTTPS_PORT: z
+  VITE_PREVIEW_PORT: z
     .string()
     .default("4321")
     .transform((port) => +port),
-  _WEBAPP_SSL_CERT_PATH: z
+  VITE_HTTP_PORT: z
+    .string()
+    .default("80")
+    .transform((port) => +port),
+  VITE_HTTPS_PORT: z
+    .string()
+    .default("443")
+    .transform((port) => +port),
+  VITE_SSL_CERT_PATH: z
     .string()
     .default("./config/ssl/selfsigned-cert.pem")
     .transform((_path) => path.resolve(_path)),
-  _WEBAPP_SSL_KEY_PATH: z
+  VITE_SSL_KEY_PATH: z
     .string()
     .default("./config/ssl/selfsigned-key.pem")
     .transform((_path) => path.resolve(_path))

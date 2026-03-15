@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly _WEBAPP_DEBUG: boolean;
+  readonly VITE_DEBUG: boolean;
 }
 
 interface ImportMeta {

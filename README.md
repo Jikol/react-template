@@ -1,35 +1,34 @@
-# React Template Project
+# ⚛️ React Template
 
-This project serves as a template for creating web applications in React using Tailwind
-CSS and shadcn components.
+> A modern, production-ready template for developing web applications with **React**,
+> **Tailwind CSS** and **shadcn/ui** and deploying via **Docker**, with **Taskfile** as
+> the task runner.
 
-## Environment Variables
+---
 
-**Setup**: Create a `.env.local` file based on `template.env` to configure environment
-variables for your local development.
+## 🌍 Environment Variables
 
-When adding new environment variables, changes must be made in the following files to
-ensure proper functionality across the entire stack (development, build, docker, types):
+**Setup:** Copy `.env.template` to `.env.local` and fill in your values for local
+development.
 
-- **`template.env`**: Add the name of the new variable with a comment about the expected
-  type and default value. It serves as a pattern for `.env.local`.
-- **`config.ts`**: Define validation for the new variable using Zod in the `environments`
-  object. Transformations (e.g., string to boolean or number) are also performed here.
-- **`types/vite.d.ts`**: Add variables that are intended to be used in the application
-  code to the `ImportMetaEnv` interface. This ensures they are available with IntelliSense
-  and TypeScript. Only "code-level" variables should be here.
-- **`vite.config.ts`**: All environment variables that do NOT belong in the application
-  code and are used only for development/environment configuration (e.g., ports, SSL
-  paths) MUST be destructured and removed from the `handledViteEnvs` object. This prevents
-  them from being exposed in the client-side `CONFIG` object. For example, `_WEBAPP_DEBUG`
-  is kept for the code, but ports are destructured out.
-- **`Dockerfile`**: Add `ARG` and `ENV` instructions for the new variable so it's
-  available during build or in the running container.
-- **`Taskfile.yml`**: In the `requires.vars` section and in the `docker build` command
-  arguments (or exports in `docker:compose`), add the new variable so that the `task` tool
-  passes it correctly to Docker.
-- **`compose.yml`**: Add the variable to the `environment` section of the `webapp` service
-  to make it available for the container started via Docker Compose.
+All environment variables must be prefixed with `VITE_`.
 
-All environment variables in this project should start with the `_WEBAPP_` prefix (defined
-in `config.ts`).
+When adding a new environment variable, update **all the following** to keep the entire
+stack in sync:
+
+| File              | What to do                                                                                                                                                                                                                        |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.env.template`   | Add the variable name with a comment describing its expected type and default value. Serves as the blueprint for `.env.local`.                                                                                                    |
+| `config.ts`       | Define Zod validation in the `environments` object. Apply any transformations here (e.g. string → boolean, string → number). The default value defined here must match the comment in `.env.template`.                            |
+| `vite.config.ts`  | Add the variable to the `codeEnvs` array if it should be available in application code (exposed via `CONFIG`). Variables omitted from this array are available only for build/environment config and will not leak to the client. |
+| `types/vite.d.ts` | Add variables that are present in `codeEnvs` to the `ImportMetaEnv` interface — enables TypeScript IntelliSense for those variables in application code.                                                                          |
+| `Taskfile.yml`    | Add variables present in `codeEnvs` to `requires.vars` and as `--build-arg` of the `docker:build` task.                                                                                                                           |
+| `Dockerfile`      | Add `ARG` and `ENV` instructions for every variable added to `Taskfile.yml` as `--build-arg`. Variables present in `codeEnvs` must be added in the base stage.                                                                    |
+| `compose.yml`     | Add to the `environment` section of the `webapp` service so it's available inside the running container.                                                                                                                          |
+
+---
+
+## 🐳 Docker
+
+To change the default Docker image name, update the `DEFAULT_DOCKER_IMAGE` env variable in
+`Taskfile.yml`.

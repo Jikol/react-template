@@ -28,6 +28,7 @@
   "include": [
     "types",
     "vite.config.ts",
+    "vite.pwa.ts",
     "eslint.config.ts",
     "prettier.config.ts",
     "stylelint.config.ts",

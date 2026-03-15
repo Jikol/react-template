@@ -7,7 +7,7 @@
 compose.yml
 Taskfile.yml
 README.md
-template.env
+.env.template
 aws-creds.sh
 components.json
 **/*.local

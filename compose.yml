@@ -3,25 +3,27 @@ name: fizz-buzz
 services:
   webapp:
     container_name: webapp
-    image: ${DOCKER_IMAGE:-${DEFAULT_DOCKER_IMAGE:-webapp}}:${DOCKER_TAG:-latest}
+    image: ${DOCKER_IMAGE:-webapp}:${DOCKER_TAG:-latest}
     profiles: [prod]
     environment:
-      _WEBAPP_DEBUG: ${_WEBAPP_DEBUG:?error}
-      _WEBAPP_HTTP_PORT: ${_WEBAPP_HTTP_PORT:?error}
-      _WEBAPP_HTTPS_PORT: ${_WEBAPP_HTTPS_PORT:?error}
-      RETINA_WEBAPP_VIEW: ${RETINA_WEBAPP_VIEW:?error}
-      RETINA_WEBAPP_API_URL: ${RETINA_WEBAPP_API_URL:?error}
-      _WEBAPP_SSL_CERT_PATH: ${_WEBAPP_SSL_CERT_PATH:?error}
-      _WEBAPP_SSL_KEY_PATH: ${_WEBAPP_SSL_KEY_PATH:?error}
+      VITE_DEBUG: ${VITE_DEBUG:?error}
+      VITE_NAME: ${VITE_NAME:?error}
+      VITE_DESCRIPTION: ${VITE_DESCRIPTION:?error}
+      VITE_DEV_PORT: ${VITE_DEV_PORT:?error}
+      VITE_PREVIEW_PORT: ${VITE_PREVIEW_PORT:?error}
+      VITE_HTTP_PORT: ${VITE_HTTP_PORT:?error}
+      VITE_HTTPS_PORT: ${VITE_HTTPS_PORT:?error}
+      VITE_SSL_CERT_PATH: ${VITE_SSL_CERT_PATH:?error}
+      VITE_SSL_KEY_PATH: ${VITE_SSL_KEY_PATH:?error}
     # noinspection ComposeUnknownValues
     ports:
-      - ${_WEBAPP_HTTP_PORT:?error}:${_WEBAPP_HTTP_PORT:?error}
-      - ${_WEBAPP_HTTPS_PORT:?error}:${_WEBAPP_HTTPS_PORT:?error}
+      - ${VITE_HTTP_PORT:?error}:${VITE_HTTP_PORT:?error}
+      - ${VITE_HTTPS_PORT:?error}:${VITE_HTTPS_PORT:?error}
     restart: unless-stopped
     tty: true
     volumes:
-      - ${_WEBAPP_SSL_CERT_PATH:?error}:${_WEBAPP_SSL_CERT_PATH:?error}
-      - ${_WEBAPP_SSL_KEY_PATH:?error}:${_WEBAPP_SSL_KEY_PATH:?error}
+      - ${VITE_SSL_CERT_PATH:?error}:${VITE_SSL_CERT_PATH:?error}
+      - ${VITE_SSL_KEY_PATH:?error}:${VITE_SSL_KEY_PATH:?error}
       - nginx-data:/var/log/nginx
 
   webapp-healthcheck:
@@ -37,4 +39,4 @@ services:
 volumes:
   nginx-data:
     external: true
-    name: webapp-nginx-data
+    name: ${DOCKER_IMAGE:-webapp}-nginx-data
