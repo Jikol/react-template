@@ -79,7 +79,7 @@ export default defineConfig(({ mode }) => {
       outDir: path.join(config.CONST.ROOT_PATH, "dist"),
       assetsInlineLimit: (filePath): boolean => !filePath.includes("sprite.svg"),
       sourcemap: true,
-      target: "es2020",
+      target: "es2022",
       rollupOptions: {
         input: {
           app: path.join(config.CONST.ROOT_PATH, "index.html")
@@ -132,14 +132,7 @@ export default defineConfig(({ mode }) => {
     },
     optimizeDeps: {
       esbuildOptions: {
-        target: "esnext"
-      }
-    },
-    css: {
-      preprocessorOptions: {
-        scss: {
-          api: "modern-compiler"
-        }
+        target: "es2022"
       }
     },
     define: {

@@ -1,4 +1,4 @@
-name: fizz-buzz
+name: react-template
 
 services:
   webapp:

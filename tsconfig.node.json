@@ -29,10 +29,10 @@
     "types",
     "vite.config.ts",
     "vite.pwa.ts",
+    "playwright.config.ts",
     "eslint.config.ts",
     "prettier.config.ts",
     "stylelint.config.ts",
-    "logger.ts",
     "config.ts"
   ]
 }
