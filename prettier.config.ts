@@ -14,7 +14,7 @@ export default {
   endOfLine: "lf",
   proseWrap: "always",
   tailwindFunctions: ["clsx", "cn"],
-  importOrder: ["^@/(.*)$", "^[./]"],
+  importOrder: ["^react(.*)$", "^[^@./](.*)$", "^@/(.*)$", "^[./]"],
   importOrderSeparation: true,
   importOrderSortSpecifiers: true,
   endingPosition: "absolute",

@@ -33,6 +33,6 @@
     // Misc
     "skipLibCheck": true
   },
-  "include": ["src", "types"],
+  "include": ["src", "types", "logger.ts"],
   "exclude": ["node_modules", "dist", "public"]
 }
